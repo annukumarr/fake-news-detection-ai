@@ -16,7 +16,10 @@ Dataset:
 Fake and Real News Dataset (44k news articles)
 
 Fake.csv – Fake news articles
+
 True.csv – Real news articles
+
+
 
 Steps to run project:
 
@@ -26,4 +29,8 @@ python src/train_model.py
 2. Run web app
 streamlit run app.py
 
+
+## Demo
+
+![Fake News Detection App](images/fake-news-detection-demo.png)
 
