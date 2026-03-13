@@ -1,5 +1,6 @@
 # AI Fake News Detection System
 
+
 This project detects whether a news article is Fake or Real using Machine Learning.
 
 Technologies used:
@@ -14,6 +15,9 @@ Technologies used:
 Dataset:
 Fake and Real News Dataset (44k news articles)
 
+Fake.csv – Fake news articles
+True.csv – Real news articles
+
 Steps to run project:
 
 1. Train model
@@ -21,3 +25,5 @@ python src/train_model.py
 
 2. Run web app
 streamlit run app.py
+
+
