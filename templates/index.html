@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthLens | Fake News Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a class="brand" href="/">
+            <span class="brand-icon">T</span>
+            <span>TruthLens</span>
+        </a>
+        <span class="nav-tag">ML + NLP</span>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="eyebrow">● NEWS TEXT ANALYZER</div>
+            <h1>Look beyond the <span>headline.</span></h1>
+            <p class="subtitle">
+                Analyze news text using a machine learning model trained
+                with TF-IDF and Logistic Regression.
+            </p>
+        </section>
+
+        <section class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Analyze an article</h2>
+                    <p>Paste the headline and article text below.</p>
+                </div>
+                <span class="document-icon">▤</span>
+            </div>
+
+            <form method="POST">
+                <label for="article">News article</label>
+                <textarea id="article" name="article"
+                    placeholder="Paste the full news article here..."
+                    maxlength="50000" required>{{ article }}</textarea>
+
+                <div class="input-footer">
+                    <span>For better results, include the full article.</span>
+                    <span id="char-count">0 characters</span>
+                </div>
+
+                <button type="submit">Analyze news →</button>
+            </form>
+
+            {% if error %}
+                <div class="message error" role="alert">{{ error }}</div>
+            {% endif %}
+
+            {% if result %}
+                <section class="result {{ 'fake' if result.label == 'FAKE' else 'real' }}">
+                    <div class="result-top">
+                        <div>
+                            <div class="result-label">MODEL PREDICTION</div>
+                            <h2>{{ result.label }}</h2>
+                        </div>
+                        <div class="result-symbol">
+                            {{ '!' if result.label == 'FAKE' else '✓' }}
+                        </div>
+                    </div>
+
+                    {% if result.confidence is not none %}
+                        <div class="confidence-row">
+                            <span>Model confidence score</span>
+                            <strong>{{ "%.2f"|format(result.confidence) }}%</strong>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-fill"
+                                 style="width: {{ result.confidence }}%"></div>
+                        </div>
+                    {% endif %}
+
+                    <p class="result-note">
+                        This prediction is not proof that an article is true or false.
+                        The score is not a verified probability of factual accuracy.
+                        Always cross-check claims with reliable sources.
+                    </p>
+
+                    <div class="fact-check">
+                        <h3>🔎 Verify this article independently</h3>
+                        <p>
+                            Search for supporting evidence and independent
+                            reporting before deciding whether a claim is true.
+                        </p>
+
+                        <div class="fact-links">
+                            {% for link in result.fact_links %}
+                                <a class="fact-link"
+                                   href="{{ link.url }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer">
+                                    <span>
+                                        <strong>{{ link.name }}</strong>
+                                        <small>{{ link.description }}</small>
+                                    </span>
+                                    <span class="external-icon">↗</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+
+                        <p class="fact-disclaimer">
+                            Search results are not automatically verified.
+                            Read the original sources and compare their evidence.
+                        </p>
+                    </div>
+
+                </section>
+            {% endif %}
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <span>01</span>
+                <h3>Text analysis</h3>
+                <p>TF-IDF converts words and phrases into numerical features.</p>
+            </div>
+            <div class="feature">
+                <span>02</span>
+                <h3>ML prediction</h3>
+                <p>Logistic Regression predicts the learned FAKE or REAL class.</p>
+            </div>
+            <div class="feature">
+                <span>03</span>
+                <h3>Responsible use</h3>
+                <p>Predictions can be wrong and need independent verification.</p>
+            </div>
+        </section>
+
+        <footer>
+            TruthLens · Academic project · Predictions may be incorrect.
+        </footer>
+    </main>
+
+    <script>
+        const articleInput = document.getElementById("article");
+        const charCount = document.getElementById("char-count");
+
+        function updateCount() {
+            charCount.textContent =
+                articleInput.value.length.toLocaleString() + " characters";
+        }
+
+        articleInput.addEventListener("input", updateCount);
+        updateCount();
+    </script>
+</body>
+</html>
