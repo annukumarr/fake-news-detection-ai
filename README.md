@@ -167,9 +167,7 @@ Trained on 5,067 articles, evaluated on a held-out 1,267-article test set (80/20
 
 ## 👥 Contributors
 
-- Neha Rana — 25MCI10087
 - Annu Kumar Pal — 25MCI10230
-- Divyansh Singh Parmar — 25MCI10303
 
 **Guide:** Maajid Bashir (E17205)
 **Institution:** Chandigarh University, MCA (2025–2027)
